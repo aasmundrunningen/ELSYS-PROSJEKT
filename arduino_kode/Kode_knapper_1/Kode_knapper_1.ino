@@ -1,11 +1,11 @@
-// constants won't change. They're used here to set pin numbers:
+
 const int buttonPin1 = 2;  // the number of the pushbutton pin 1
 const int buttonPin2 = 3;  // the number of the pushbutton pin 2
 const int ledPin1 = 10;    // the number of the LED pin 1
 const int ledPin2 = 11;    // the number of the LED pin 2
 const int ledPin3 = 12;    // the number of the LED pin 3
 
-// variables will change:
+
 int buttonState1 = 0;  // variable for reading the pushbutton status 1
 int buttonState2 = 0;  // variable for reading the pushbutton status 2
 int spenning = 0; // variable to store measurement
