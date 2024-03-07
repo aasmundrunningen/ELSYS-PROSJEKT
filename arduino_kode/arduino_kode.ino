@@ -7,26 +7,75 @@
 #define MAXBUF_REQUIREMENT 48
 #define SEN5X_I2C_ADDRESS 0x69
 
+#define SERIAL_ENABLED
+
+const char BASE_FILENAME = "Datafile_"
+char filename[];
 SensirionI2CSen5x sen5x;
 
 const int chipSelect = SDCARD_SS_PIN; // Assuming you are using pin 10 for SD chip select
 
-void setup() {
+void serial_init(){
+  #ifdef SERIAL_ENABLED
   Serial.begin(115200);
   while (!Serial) {
     delay(100);
   }
   Serial.println("Starting setup...");
+  #endif
+}
+
+void serial_print(*char[] _string){
+  #ifdef SERIAL_ENABLED
+  Serial.print(*_string);
+  #endif
+}
+
+bool filesystem_init(){
+    if (!SD.begin(chipSelect)) {
+      serial_print("Card failed, or not present");
+      while (1);
+  }
+  Serial.println("Card initialized.");
+
+  int index = 0;
+    while(SD.exists("%c%i", BASE_FILENAME, index)){
+      index ++;
+    }
+  filename = "%c%i .csv", BASE_FILENAME, index;
+  File dataFile = SD.open(filename, FILE_WRITE);
+  dataFile.println("time (ms), 1um, 2.5um, 4mu, 10mu");
+  dataFile.close();
+}
+
+void filesystem_log_data(float _mcPm1p0, float _mcPm2p5, float _mcPm4p0, float _mcPm10p0){
+    File dataFile = SD.open(filename, FILE_WRITE);
+    if (dataFile) {
+      // Write data to the file in CSV format
+      dataFile.print(millis());
+      dataFile.print(",");
+      dataFile.print(_mcPm1p0);
+      dataFile.print(",");
+      dataFile.print(_mcPm2p5);
+      dataFile.print(",");
+      dataFile.print(_mcPm4p0);
+      dataFile.print(",");
+      dataFile.println(_mcPm10p0);
+      dataFile.close();
+      Serial.println("Data written to datalog.csv.");
+    } else {
+      Serial.println("Error opening datalog.csv");
+    }
+}
+
+
+void setup() {
+  serial_init();
 
   Wire.begin();
   sen5x.begin(Wire);
 
-  Serial.print("Initializing SD card...");
-  if (!SD.begin(chipSelect)) {
-    Serial.println("Card failed, or not present");
-    while (1);
-  }
-  Serial.println("Card initialized.");
+  filesystem_init();
 
   uint16_t error;
   char errorMessage[256];
@@ -81,20 +130,6 @@ void loop() {
     Serial.println(mcPm10p0);
 
     // Open the file for writing
-    File dataFile = SD.open("datalog.csv", FILE_WRITE);
-    if (dataFile) {
-      // Write data to the file in CSV format
-      dataFile.print(mcPm1p0);
-      dataFile.print(",");
-      dataFile.print(mcPm2p5);
-      dataFile.print(",");
-      dataFile.print(mcPm4p0);
-      dataFile.print(",");
-      dataFile.println(mcPm10p0);
-      dataFile.close();
-      Serial.println("Data written to datalog.csv.");
-    } else {
-      Serial.println("Error opening datalog.csv");
-    }
+    filesystem_log_data(mcPm1p0, mcPm2p5, mcPm4p0, mcPm10p0);
   }
 }
