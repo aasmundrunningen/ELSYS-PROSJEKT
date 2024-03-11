@@ -80,6 +80,7 @@ int debug(){
         Serial.print("Mass Concentration Pm10p0: ");
         Serial.println(mcPm10p0);
     }
+    return 0;
 }    
 
 
