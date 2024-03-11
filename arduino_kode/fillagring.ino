@@ -8,9 +8,14 @@
 #define SEN5X_I2C_ADDRESS 0x69
 
 int filestorage(){
-  char filename[25];
-  sprintf(filename, "Datalogg_%lu.txt", millis());
-  File dataFile = SD.open(filename, FILE_WRITE);
+    int counter = 1;
+    sprintf(filename, "Datalog%c.csv",counter);
+    while(SD.exists(filename)){
+        counter++;
+        sprintf(filename, "Datalog%c.csv",counter);
+    }
+    char filename[25];
+    File dataFile = SD.open(filename, FILE_WRITE);
     if (dataFile) {
       // Write data to the file in CSV format
       dataFile.print(mcPm1p0);
