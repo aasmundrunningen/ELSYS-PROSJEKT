@@ -67,3 +67,11 @@ void loop() {
       
     }
   }
+
+
+float measure_battery_voltage(){
+  int sensorValue = analogRead(ADC_BATTERY);
+  float voltage = sensorValue * (3.3 / 1023.0) *(1.2+0.33) / 1.2;
+  //sensorValue blir måler 0-3.3V som en 0-1023 verdi og batterispenningen går gjennom en spenningsdeler med 1.2MOhm og 330KOhm
+  return voltage
+}
