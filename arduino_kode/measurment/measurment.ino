@@ -1,0 +1,3 @@
+
+
+void gjor_maling();
