@@ -54,9 +54,9 @@ int debug(){
     if (voltage < minVoltage) voltage = minVoltage;
     float percentage = (voltage - minVoltage) / (maxVoltage - minVoltage) * 100;
     Serial.printf("Battery percentage: %.2f%%\n", percentage);
-
-
-    //Målinger
+}
+def seriel_maalinger(){
+    //Målinger ved målemodus
     uint16_t error;
     char errorMessage[256];
 
