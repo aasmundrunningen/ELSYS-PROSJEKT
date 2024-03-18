@@ -1,5 +1,7 @@
+#include <SensirionI2CSen5x.h>
+#include <Arduino.h>
 
-
+SensirionI2CSen5x sen5x;
 
 void gjor_maling(){
 uint16_t error;
@@ -32,4 +34,5 @@ uint16_t error;
     Serial.println(mcPm4p0);
     Serial.print("Mass Concentration Pm10p0: ");
     Serial.println(mcPm10p0);
+}
 }
