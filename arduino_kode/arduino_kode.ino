@@ -11,11 +11,8 @@ void setup(){
     Serial.begin(9600);
   }
   
-  #ifdef ACTIVATE_SERIAL
+  
   Serial.println("Starting program");
-  #else
-  Serial.println("hjello");
-  #endif
   pinMode(USB_DETECT, INPUT);
   pinMode(MEASURE_MODE_SWITCH, INPUT_PULLUP);
   pinMode(BATTERY_INDICATOR_BUTTON, INPUT_PULLUP);
