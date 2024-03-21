@@ -6,6 +6,8 @@
 #include "Hardware_callbacks.hpp"
 #include <map>
 #include "measurment.hpp"
+#include "fillagring.hpp"
+#include "serial_monitor.hpp"
 
 const char * const State_to_string[] =
 {
@@ -39,14 +41,16 @@ void run_state_machine(){
             }
             break;
         case CHARGING:
-          set_led_state(1,0,0);
+          display_battery_voltage();
+          debug();
             if(!charging()){
                 set_state(DEEP_SLEEP);
             }
             if(!digitalRead(MEASURE_MODE_SWITCH)){
                 set_state(INIT_MEASURMENT);
             }
-            break;
+          delay(1000);
+          break;
         case DEEP_SLEEP:
             if(!digitalRead(MEASURE_MODE_SWITCH)){
                 set_state(INIT_MEASURMENT);
@@ -60,18 +64,20 @@ void run_state_machine(){
             }
             break;
         case BATTERY_MEASURE:
-            set_led_state(1,1,0);
-            delay(5000);
+            display_battery_voltage();
+            delay(2000);
             set_state(DEEP_SLEEP);
             break;
         case INIT_MEASURMENT:
             set_led_state(0,1,0);
             set_state(MEASURE);
             start_measurment();
+            init_file();
             break;
         case MEASURE:
-            get_measurment();
-            toogle_green_led(1000);
+            update_measurment();
+            store_data();
+            seriel_maalinger(get_measurment());
             if(digitalRead(MEASURE_MODE_SWITCH)){
                 stop_measurment();
                 if(charging()){
@@ -80,5 +86,12 @@ void run_state_machine(){
                     set_state(DEEP_SLEEP);
                 }
             }
+            if(!digitalRead(BATTERY_INDICATOR_BUTTON)){
+                display_battery_voltage();
+            }else{
+                toogle_green_led(1000);
+            }
+            delay(1000);
+            break;
     }
 }

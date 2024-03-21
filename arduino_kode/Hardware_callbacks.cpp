@@ -12,7 +12,6 @@ void reset_callback_flags(){
 
 void measure_battery_callback(){
   callback_flags.measure_battery = 1;
-  Serial.println("measyre battery callback");
 }
 
 void measure_callback(){

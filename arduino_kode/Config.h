@@ -14,3 +14,6 @@
 
 //other
 #define USB_DETECT 1
+
+#define BATTERY_PERCENTAGE_RED (float)   30.0
+#define BATTERY_PERCENTAGE_GREEN (float) 70.0

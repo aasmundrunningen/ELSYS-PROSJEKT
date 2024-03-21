@@ -35,3 +35,28 @@ void toogle_green_led(int periode){
 bool charging(){
     return digitalRead(USB_DETECT);
 }
+
+#define MAX_VOLTAGE (float) 4.2
+#define MIN_VOLTAGE (float) 3.0
+
+float measure_battery_voltage(){
+  int sensorValue = analogRead(ADC_BATTERY);
+  float voltage = sensorValue * (3.3 / 1023.0) *(1.2+0.33) / 1.2;
+  //sensorValue blir måler 0-3.3V som en 0-1023 verdi og batterispenningen går gjennom en spenningsdeler med 1.2MOhm og 330KOhm
+  if (voltage > MAX_VOLTAGE){ voltage = MAX_VOLTAGE;}
+  if (voltage < MIN_VOLTAGE){ voltage = MIN_VOLTAGE;}
+  float percentage = (voltage - MIN_VOLTAGE) / (MAX_VOLTAGE - MIN_VOLTAGE) * 100;
+  return percentage;
+
+}
+
+void display_battery_voltage(){
+  float voltage = measure_battery_voltage();
+  if(voltage < BATTERY_PERCENTAGE_RED){
+    set_led_state(0,0,1);
+  }else if(voltage < BATTERY_PERCENTAGE_GREEN){
+    set_led_state(0,1,0);
+  }else{
+    set_led_state(1,0,0);
+  }
+}
