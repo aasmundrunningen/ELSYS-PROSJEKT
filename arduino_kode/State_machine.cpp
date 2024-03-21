@@ -5,7 +5,7 @@
 #include "Arduino.h"
 #include "Hardware_callbacks.hpp"
 #include <map>
-
+#include "measurment.hpp"
 
 const char * const State_to_string[] =
 {
@@ -67,10 +67,13 @@ void run_state_machine(){
         case INIT_MEASURMENT:
             set_led_state(0,1,0);
             set_state(MEASURE);
+            start_measurment();
             break;
         case MEASURE:
+            get_measurment();
             toogle_green_led(1000);
             if(digitalRead(MEASURE_MODE_SWITCH)){
+                stop_measurment();
                 if(charging()){
                     set_state(CHARGING);
                 }else{

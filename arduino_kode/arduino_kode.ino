@@ -3,6 +3,7 @@
 #include "State_machine.hpp"
 #include "Config.h"
 #include "Utilities.hpp"
+#include "measurment.hpp"
 
 void setup(){
   led_init();
@@ -11,7 +12,7 @@ void setup(){
     Serial.begin(9600);
   }
   
-  
+  measure_init();
   Serial.println("Starting program");
   pinMode(USB_DETECT, INPUT);
   pinMode(MEASURE_MODE_SWITCH, INPUT_PULLUP);
