@@ -7,7 +7,7 @@
 
 void turn_on_low_power(){
   set_led_state(0, 1, 1);
-  Serial.begin(9600);
+  Serial.begin(115200);
   if(Serial){
     Serial.println("Going into deep sleep");
   }

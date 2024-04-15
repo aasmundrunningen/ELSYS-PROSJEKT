@@ -8,12 +8,10 @@
 void setup(){
   led_init();
   digitalWrite(GREEN_LED, HIGH);
-  while(!Serial){
-    Serial.begin(9600);
-  }
+  Serial.begin(115200);
   
   measure_init();
-  Serial.println("Starting program");
+  if(Serial){Serial.println("Starting program");}
   pinMode(USB_DETECT, INPUT);
   pinMode(MEASURE_MODE_SWITCH, INPUT_PULLUP);
   pinMode(BATTERY_INDICATOR_BUTTON, INPUT_PULLUP);

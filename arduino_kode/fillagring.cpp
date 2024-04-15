@@ -16,15 +16,15 @@ char filename[25];
 
 void init_file(){
     if(!SD.begin(chipSelect)){
-        Serial.println("Error: SD-card not detected");
+        if(Serial){Serial.println("Error: SD-card not detected");}
     }else{
-        int counter = 1;
-        sprintf(filename, "Datalog%i.csv",counter);
+        int counter = 0;
+        sprintf(filename, "D%i.csv",counter);
         while(SD.exists(filename)){
             counter++;
-            sprintf(filename, "Datalog%i.csv",counter);
+            sprintf(filename, "D%i.csv",counter);
         }
-        Serial.println(filename);
+        if(Serial){Serial.println(filename);}
     }
     
 }

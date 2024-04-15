@@ -26,9 +26,11 @@ extern Callback_flags callback_flags;
 void set_state(State _state){
     enum State old_state = state;
     state = _state;
+    if(Serial){
     Serial.print(State_to_string[old_state]);
     Serial.print(" -> ");
     Serial.println(State_to_string[state]);
+    }
 }
 
 void run_state_machine(){
