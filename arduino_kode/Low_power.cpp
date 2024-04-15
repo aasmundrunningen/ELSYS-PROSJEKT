@@ -11,7 +11,7 @@ void turn_on_low_power(){
   if(Serial){
     Serial.println("Going into deep sleep");
   }
-  set_led_state(0,0,1);
+  set_led_state(0,0,0);
   LowPower.attachInterruptWakeup(MEASURE_MODE_SWITCH, measure_callback, FALLING);
   LowPower.attachInterruptWakeup(BATTERY_INDICATOR_BUTTON, measure_battery_callback, FALLING);
   LowPower.attachInterruptWakeup(USB_DETECT, usb_detect_callback, RISING);
