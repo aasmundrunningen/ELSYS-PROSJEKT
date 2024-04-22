@@ -15,5 +15,9 @@
 //other
 #define USB_DETECT 1
 
-#define BATTERY_PERCENTAGE_RED (float)   30.0
-#define BATTERY_PERCENTAGE_GREEN (float) 70.0
+#define MAX_VOLTAGE (float) 4.2
+#define MIN_VOLTAGE (float) 3.0
+
+#define CRITICAL_BATTERY_LEVEL      (float) 15.0
+#define BATTERY_PERCENTAGE_RED      (float) 30.0
+#define BATTERY_PERCENTAGE_GREEN    (float) 70.0

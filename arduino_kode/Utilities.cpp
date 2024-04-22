@@ -32,12 +32,25 @@ void toogle_green_led(int periode){
   digitalWrite(GREEN_LED, green_led_state);
 }
 
+
+bool battery_led_state = 0;
+int _battery_time = 0;
+void toogle_battery_led(int periode){
+  if(_battery_time + periode < millis()){
+    _battery_time = millis();
+    battery_led_state = !battery_led_state;
+  }
+  if(battery_led_state){
+    display_battery_voltage();
+  }else{
+    set_led_state(0,0,0);
+  }
+}
+
+
 bool charging(){
     return digitalRead(USB_DETECT);
 }
-
-#define MAX_VOLTAGE (float) 4.2
-#define MIN_VOLTAGE (float) 3.0
 
 float measure_battery_voltage(){
   int sensorValue = analogRead(ADC_BATTERY);

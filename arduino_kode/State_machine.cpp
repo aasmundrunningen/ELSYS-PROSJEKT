@@ -88,10 +88,13 @@ void run_state_machine(){
                     set_state(DEEP_SLEEP);
                 }
             }
+            if(CRITICAL_BATTERY_LEVEL > measure_battery_voltage()){
+                set_state(DEEP_SLEEP);
+            }
             if(!digitalRead(BATTERY_INDICATOR_BUTTON)){
                 display_battery_voltage();
             }else{
-                toogle_green_led(1000);
+                toogle_battery_led(1000);
             }
             delay(1000);
             break;
